@@ -1,0 +1,6 @@
+# Ignore raw large datasets
+/datasets/raw/*.csv
+/datasets/raw/*.zip
+
+# But keep the folder structure
+!/datasets/raw/.gitkeep
