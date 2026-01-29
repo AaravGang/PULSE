@@ -1,12 +1,12 @@
 # 1. Ignore everything inside the dataset folder
 dataset/
+processed_data/
 
 # 2. But wait! Do NOT ignore any folders (so it traverses down)
 !dataset/**/
 
 # 3. And do NOT ignore the .gitkeep files we just created
 !dataset/**/.gitkeep
+!processed_data/**/.gitkeep
 .venv/
 .env
-
-
