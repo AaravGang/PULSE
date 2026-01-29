@@ -9,4 +9,4 @@ processed_data/
 !dataset/**/.gitkeep
 !processed_data/**/.gitkeep
 .venv/
-.env
+# .env
