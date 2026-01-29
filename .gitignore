@@ -1,6 +1,7 @@
 # 1. Ignore everything inside the dataset folder
 dataset/
 processed_data/
+.env
 
 # 2. But wait! Do NOT ignore any folders (so it traverses down)
 !dataset/**/
@@ -9,4 +10,3 @@ processed_data/
 !dataset/**/.gitkeep
 !processed_data/**/.gitkeep
 .venv/
-.env
