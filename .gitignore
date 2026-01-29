@@ -1,6 +1,12 @@
-# Ignore raw large datasets
-/datasets/raw/*.csv
-/datasets/raw/*.zip
-venv/
-# But keep the folder structure
-!/datasets/raw/.gitkeep
+# 1. Ignore everything inside the dataset folder
+dataset/
+
+# 2. But wait! Do NOT ignore any folders (so it traverses down)
+!dataset/**/
+
+# 3. And do NOT ignore the .gitkeep files we just created
+!dataset/**/.gitkeep
+.venv/
+.env
+
+
