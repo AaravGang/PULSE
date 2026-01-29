@@ -7,10 +7,24 @@ An unsupervised deep learning pipeline for detecting and diagnosing mechanical f
 > **Note:** This branch contains the software simulation only. Hardware deployment (Arduino Uno Q) is currently being developed on the `arduino` branch.
 
 ## 🔍 Overview
-This project implements a **1D Convolutional Autoencoder** to act as a "Digital Twin" of a healthy motor. Instead of classifying specific faults (which requires broken motors to train), the model learns the vibration signature of a *healthy* machine.
+This project implements a **1D Convolutional Autoencoder** to act as a "Digital Twin" of a healthy motor. The model learns the vibration signature of a *healthy* machine and flags deviations as anomalies.
 
-* **Detection:** Any deviation from the healthy baseline (high reconstruction error) is flagged as an anomaly.
-* **Diagnosis:** The residual signal (Error) is analyzed using FFT to identify the fault type (Inner Race vs Outer Race) based on frequency signatures.
+![Reconstruction Comparison](assets/reconstruction_comparison.png)
+*Above: The model reconstructs healthy signals perfectly (Top), but fails to reconstruct faulty spikes, leaving a large residual error (Bottom).*
+
+## 📊 Key Results
+
+### 1. Data Separation (EDA)
+Before deep learning, we validated that statistical features could separate the classes. The **Vector Sum** magnitude allows us to visualize distinct clusters for healthy vs. faulty states.
+![EDA Scatter Plot](assets/eda_scatter.png)
+
+### 2. Anomaly Detection (Thresholding)
+Using a **3-Sigma** statistical cutoff on the Mean Squared Error (MSE), we achieved near-perfect separation between the healthy baseline and bearing faults.
+![Error Histogram](assets/error_histogram.png)
+
+### 3. Fault Diagnosis (Physics-Informed)
+The Autoencoder detects *that* something is wrong; Physics tells us *what* is wrong. By performing an FFT on the residual signal (Input - Output), we can recover the characteristic fault frequency (BPFI/BPFO) without needing labeled training data.
+![FFT Diagnosis](assets/fft_diagnosis.png)
 
 ## 📂 Project Structure
 The pipeline is broken down into modular Jupyter notebooks for reproducibility:
@@ -30,11 +44,6 @@ The pipeline is broken down into modular Jupyter notebooks for reproducibility:
 * **Bottleneck:** Forces the model to learn the "shape" of healthy vibration, stripping out noise.
 * **Decoder:** 3-layer Transposed Convolution (reconstructs the signal).
 * **Loss Function:** Mean Squared Error (MSE).
-
-## 📊 Results (SUBFv1)
-* **Separation:** The model achieves near-perfect separation between Healthy and Faulty test samples.
-* **Thresholding:** Using a **3-Sigma** cutoff on the reconstruction error effectively filters out normal operating noise.
-* **Diagnosis:** FFT analysis of the residual signal successfully recovers the characteristic fault frequencies (BPFI/BPFO).
 
 ## 🚀 Usage
 
